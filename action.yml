@@ -1,0 +1,24 @@
+name: "Wait - Github Action Template"
+description: "This is a template for creating a new GitHub Action. It is a simple action that waits for a specified number of milliseconds."
+author: "leandromatos"
+
+# Add your action's branding here. This will appear on the GitHub Marketplace.
+branding:
+  icon: "clock"
+  color: "gray-dark"
+
+# Define your inputs here.
+inputs:
+  milliseconds:
+    description: "The number of milliseconds to wait"
+    required: true
+    default: "1000"
+
+# Define your outputs here.
+outputs:
+  time:
+    description: "The time we waited"
+
+runs:
+  using: node20
+  main: dist/index.js

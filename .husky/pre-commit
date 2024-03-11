@@ -1,0 +1,3 @@
+# run lint-staged to check for linting errors
+yarn lint-staged --verbose
+yarn test

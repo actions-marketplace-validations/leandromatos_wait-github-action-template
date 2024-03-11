@@ -1,0 +1,73 @@
+# This workflow validates both the code quality through linting and testing, and the functionality
+# of the GitHub Action itself. It ensures high standards are maintained with every change.
+name: Validate Action
+
+on:
+  pull_request:
+    branches:
+      - main
+
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  # This job ensures that the code adheres to set standards and passes all unit tests.
+  lint-and-test:
+    name: Lint and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository to access its code.
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      # Setup Node.js using the version specified in `.nvmrc` to ensure consistent environment.
+      - name: Setup Node.js
+        id: setup-node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+
+      # Install project dependencies based on the lockfile, ensuring reproducible builds.
+      - name: Install Dependencies
+        id: yarn-install
+        run: yarn
+
+      # Lint the code to maintain code quality standards.
+      - name: Lint
+        id: yarn-lint
+        run: yarn lint
+
+      # Run unit tests to ensure code changes do not break existing functionality.
+      - name: Test
+        id: yarn-test
+        run: yarn test
+
+  # This job validates the action's functionality directly by executing it with test inputs.
+  validate-action:
+    name: Validate Action
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository again to make the action's code available for testing.
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      # Test the local GitHub Action to ensure it performs as expected.
+      - name: Test Local Action
+        id: validate-action
+        uses: ./
+        with:
+          milliseconds: 2000
+
+      # Print the output from the GitHub Action to verify its correct execution.
+      - name: Print Output
+        id: output
+        run: echo "${{ steps.validate-action.outputs.time }}"
