@@ -1,7 +1,7 @@
 {
   "name": "@leandromatos/wait-github-action-template",
   "description": "This is a template for creating a new GitHub Action. It is a simple action that waits for a specified number of milliseconds.",
-  "version": "0.0.0",
+  "version": "0.0.1-alpha.0",
   "license": "MIT",
   "homepage": "https://github.com/leandromatos/wait-github-action-template",
   "repository": {
